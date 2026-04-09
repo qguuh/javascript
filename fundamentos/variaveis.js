@@ -45,7 +45,7 @@ console.log("------------------------------")
 // a linha abaixo concatena (união) um texto com um conteúdo da variável
 console.log(`Nome: ${nome}`)
 console.log(`Idade: ${idade} anos`)
-console.log(`Peso: ${peso} kg`)
+console.log(`Peso: ${peso}kg`)
 console.log(`Altura: ${altura}`)
 console.log(`VIP: ${vip}`)
 console.log("------------------------------")
