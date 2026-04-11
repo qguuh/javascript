@@ -48,4 +48,8 @@ console.log(`Idade: ${idade} anos`)
 console.log(`Peso: ${peso}kg`)
 console.log(`Altura: ${altura}`)
 console.log(`VIP: ${vip}`)
+console.log(`FCM: ${208 - (idade * 0.7)}bpm`)
+console.log(`ICM: ${(peso / (altura * altura)).toFixed(2)}`)
+// .toFixed(2) formata o resultado em 2 casas decimais
+console.log(`Recomendado tomar: ${peso * 35}ml de água por dia`)
 console.log("------------------------------")
