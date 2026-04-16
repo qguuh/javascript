@@ -59,7 +59,7 @@ if (condição) {
   //condição verdadeira
 }
 
-if condição {
+if (condição) {
   //condição verdadeira
 } else {
   //condição falsa
