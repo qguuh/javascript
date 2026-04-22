@@ -64,6 +64,26 @@ if (condição) {
 } else {
   //condição falsa
 }
+
+if (condição 1) {
+  //condição 1 verdadeira
+}  else if (condição 2) {
+  // condição 2 verdadeira
+} else {
+  //se nenhuma das condições anteriores for verdadeira
+}
+
+switch (valor) {
+  case 1:
+    \\código caso o valor seja 1
+    break
+  case 2:
+    \\código caso o valor seja 2
+    break
+  default:
+    \\código caso o valor seja diferente de 1 ou 2
+    break
+}
 ```
 
 
