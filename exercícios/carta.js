@@ -15,10 +15,15 @@ do {
     console.log("Sorteiro de uma carta de baralho")
     prompt ("Pressione [Enter] para lançar a carta... ")
     console.log("")
+
     let nipe = nipes[Math.floor(Math.random() * 4)]
     let face = faces[Math.floor(Math.random() * 13)]
 
-    console.log(`${face}${nipe}`)
+    if (nipes.indexOf(nipe) === 1 || nipes.indexOf(nipe) === 2) {
+        console.log(`${face}${nipe}`.red)
+    } else {
+        console.log(`${face}${nipe}`.black)
+    }
 
     console.log("")
     novoJogo = prompt("Deseja jogar novamente?(s/n) ")
