@@ -61,7 +61,5 @@ if (jogador === computador) {
 } else {
     console.log("    Computador venceu")
 }
-    
-
     novoJogo = prompt("Deseja jogar novamente?(s/n) ")
 } while (novoJogo === "s" || novoJogo === "S")
