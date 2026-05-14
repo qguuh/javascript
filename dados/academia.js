@@ -13,7 +13,7 @@ const color = require('colors')
 
 let nome, idade, peso, altura, vip
 let matricula = 1 // contador de matricula
-let opcaoMenu, opcaoConsulta, opcaoRelatorio
+let opcaoMenu, opcaoConsulta, opcaoRelatorio, busca
 
 // array principal (estrutura de dados)
 
@@ -164,6 +164,36 @@ function consultarAlunos() {
             console.log("=== BUSCAR ALUNO ===")
             console.log("")
 
+        // Lógica principal
+        busca = prompt("Digite o nome do aluno: ").toLowerCase() // .toLowerCase -> converter tudo em letras minúsculas
+
+        //pesquisa (filtro) na estrutura de dados
+
+        encontrados = alunos.filter((a) => {
+            return a[1].toLowerCase().includes(busca)
+        })
+
+        // Validação
+        if (encontrados.length === 0) {
+            console.log("")
+            console.log("Aluno não encontrado ou não cadastrado.".red)
+        } else {
+            // Encontrar um usuário no banco de dados
+
+                let cliente = encontrados
+                    .map((a) => {
+                        return {
+                            Matrícula: a[0],
+                            Nome: a[1],
+                            Idade: a[2],
+                            Peso: a[3],
+                            Altura: a[4],
+                            VIP: a[5]
+                        
+                }})
+                console.table(cliente)
+        }
+            console.log("")
             prompt("Precione [Enter] para voltar...");
         }
 
@@ -243,7 +273,78 @@ function gerarFichaAluno() {
     console.log("=== FICHA DO ALUNO ===")
     console.log("")
 
-    prompt("Pressione [Enter] para voltar...")
+    let buscarMatricula = Number(prompt("Digite a matrícula do aluno: "))
+
+    // Lógica principal (buscar o index da estrutura de dados)
+
+    let indice = alunos.findIndex((a => {
+        return a[0] === buscarMatricula
+    }))
+
+    // Validação da busca (Pelo index do aluno) -1 = vázio
+    if (indice === -1) {
+        console.log("Matrícula não encontrada".red)
+    } else {
+        nome = alunos[indice][1]
+        idade = alunos[indice][2]
+        peso = alunos[indice][3]
+        altura = alunos[indice][4]
+        vip = alunos[indice][5]
+
+        // status VIP
+        
+        let statusVip
+        if (vip === true) {
+            statusVip = "Sim (Direito a personal trainer)"
+        } else {
+            statusVip = "Não"
+        }
+
+        // Cálculos
+
+        let fcm = (208 - (0.7 * idade)).toFixed(0)
+        let agua = (peso * 35) / 1000
+        let imc = (peso / (altura * altura)) 
+        let pesoIdealMin = (18.5 * (altura / altura)).toFixed(1)
+        let pesoIdealMax = (24.9 * (altura / altura)).toFixed(1)
+
+        let statusImc
+        if (imc < 18.5) {
+            statusImc = "Abaixo do peso"
+        } else if (imc < 25) {
+            statusImc = "Peso normal"
+        } else if (imc < 30) {
+            statusImc = "Sobrepeso"
+        } else if (imc < 35) {
+            statusImc = "Obesidade Grau I"
+        } else if (imc < 40) {
+            statusImc = "Obesidade Grau II"
+        } else {
+            statusImc = "Obesidade grau III"
+        }
+
+        // Exibição
+
+        console.log("=============================================")
+        console.log("=              FICHA DO ALUNO               =")
+        console.log("=============================================")
+        console.log(`Matrícula: ${buscarMatricula}`.yellow)
+        console.log(`Nome: ${nome}`.yellow)
+        console.log(`Idade: ${idade}`.yellow)
+        console.log(`Altura: ${altura}`.yellow)
+        console.log(`VIP: ${statusVip}`.yellow)
+        console.log("")
+        console.log(`FCM: ${fcm} bpm`.yellow)
+        console.log(`Consumo de água recomendado: ${agua.toFixed(1)} litros/dia`.yellow)
+        console.log(`ICM: ${imc.toFixed(2)}, ${statusImc}`.yellow)
+        console.log(`Faixa de peso ideal: ${pesoIdealMin} Kg até ${pesoIdealMax} Kg`.yellow)
+        console.log("=============================================")
+
+}
+
+     console.log("")
+    prompt("Precione [Enter] para voltar...");
+
 }
 
 // Ficha do aluno (Fim) <<<<<
@@ -309,9 +410,58 @@ function gerarRelatorios() {
         function gerarRelatorioIMC() {
         console.clear()
         console.log("=== % IMC DOS ALUNOS ===")
+        console.log("")
+         
+        // Lógica principal (map() obter %imc da estrutura de dados)
+        // validação
+
+        let alunosValidos = alunos.filter((a) => {
+
+        })
+
+        // Se nenhum aluno cadastrado
+        if (alunos.length === 0) {
+            console.log("Nenhum aluno cadastrado".red)
+        } else {
+            let abaixoPeso = 0
+            let pesoNormal = 0
+            let acimaPeso = 0
+
+            alunosValidos.map(() => {
+                let peso = a[3]
+                let altura = a[4]
+                let imc = peso / (altura * altura)
+                if (imc < 18.5) {
+                    abaixoPeso++
+                } else if (imc < 25) {
+                    pesoNormal++
+                } else {
+                    acimaPeso++    
+                }
+            })
+
+            // Cálculos
+            let total = alunos.length
+            let percAbaixo = ((abaixoPeso / total) * 100)
+            let percNormal = ((pesoNormal / total) * 100)
+            let percAcima = ((acimaPeso / total) * 100)
+
+            // Mini gráfico
+            let graficoAbaixo =  "■".repeat(Math.round(percAbaixo / 2))
+            let graficoNormal =  "■".repeat(Math.round(percNormal / 2))
+            let graficoAcima =  "■".repeat(Math.round(percAcima / 2))
+
+            console.log(`Abaixo do peso: ${percAbaixo.toFixed(1)}%`)
+            console.log(graficoAbaixo)
+            console.log("")
+            console.log(`Peso normal: ${percNormal.toFixed(1)}%`)
+            console.log(graficoNormal)
+            console.log("")
+            console.log(`Acima do peso: ${percAcima.toFixed(1)}%`)
+            console.log(graficoAcima)
+        }
 
         console.log("")
-
         prompt("Pressione [Enter] para voltar...")
     }
 }
