@@ -288,13 +288,12 @@ function excluirAluno() {
 
         let confirmar = prompt("Confirmar exclusão? (s/n): ").toLowerCase()
         if (confirmar === "s") {
-            delete alunos[indice]
             alunos.splice(indice, 1)
             console.log("")
             console.log("Aluno excluído com sucesso!".green)
         } else {
             console.log("")
-            console.log("Exclusão cancelada")
+            console.log("Exclusão cancelada".yellow)
         }
     }
 
@@ -447,7 +446,7 @@ function gerarRelatorios() {
         }
 
         console.log("")
-        prompt("Pressione [Enter] para voltar...")
+        prompt("Pressione [Enter] para voltar...".red)
     }
 
     function gerarRelatorioIMC() {
