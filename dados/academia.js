@@ -31,9 +31,26 @@ let alunos = []
 
 // Main >>>>>>>>>>>>>>>>>>>>>
 
+function atualizarIdades() {
+    let anoAtual = new Date().getFullYear()
+
+    alunos.forEach((a) => {
+        let idadeSalva = a[2]
+        let anoCadastro = a[6] // nova posição no array
+
+        if (anoCadastro) {
+            let anosPassados = anoAtual - anoCadastro
+            a[2] = idadeSalva + anosPassados
+            a[6] = anoAtual // atualiza o ano base
+        }
+    })
+}
+
+
 function mainAcademia() {
     //Menu principal
     do {
+        atualizarIdades()
         console.clear()
         console.log(" _____           _           _           __ _____".yellow)
         console.log("|  _  |___ ___ _| |___ _____|_|___    __|  |   __|".yellow)
@@ -70,8 +87,10 @@ function mainAcademia() {
                 gerarRelatorios()
                 break;
             case 0:
-                //console.clear()
-                console.log("Encerrando o sistema...")
+                console.log("")
+                console.log("Obrigado por usar o sistema da academia!".green)
+                console.log("Encerrando o sistema...".yellow)
+                console.log("")
                 break;
             default:
                 console.log("Opção inválida!")
@@ -91,7 +110,12 @@ function cadastrarAluno() {
     console.log("")
 
     nome = prompt("Nome: ")
-    idade = Number(prompt("Idade: "))
+    do {
+        idade = Number(prompt("Idade: "))
+        if (isNaN(idade) || idade <= 0) {
+        console.log("Idade inválida! Digite apenas números.".red)
+        }
+    } while (isNaN(idade) || idade <= 0)
     peso = Number(prompt("Peso: "))
     altura = Number(prompt("Altura: "))
     vip = prompt("Aluno é VIP? (s/n): ")
@@ -103,13 +127,16 @@ function cadastrarAluno() {
 
     // Adicionar os dados na matriz
 
+    let anoAtual = new Date().getFullYear()
+
     alunos.push([
         matricula, 
         nome, 
         idade, 
         peso, 
         altura, 
-        vip
+        vip,
+        anoAtual
     ])
 
     matricula++ // Auto incremento da matrícula
@@ -266,11 +293,11 @@ function editarAluno() {
         console.log("Dados atuais:")
         console.log("")
 
-        console.log(`Nome: ${alunos[indice][1]}`)
-        console.log(`Idade: ${alunos[indice][2]}`)
-        console.log(`Peso: ${alunos[indice][3]}`)
-        console.log(`Altura: ${alunos[indice][4]}`)
-        console.log(`VIP: ${alunos[indice][5]}`)
+        console.log(`Nome: ${alunos[indice][1]}`.yellow)
+        console.log(`Idade: ${alunos[indice][2]}`.yellow)
+        console.log(`Peso: ${alunos[indice][3]}`.yellow)
+        console.log(`Altura: ${alunos[indice][4]}`.yellow)
+        console.log(`VIP: ${alunos[indice][5]}`.yellow)
         console.log("")
 
         //novos dados
@@ -523,7 +550,7 @@ function gerarRelatorios() {
                 somaIdades += a[2]   // ┛
             })           
             let media = somaIdades / alunos.length
-            console.log(`Média de idade é de: ${media.toFixed(0)} anos`)
+            console.log(`Média de idade é de: ${media.toFixed(0)} anos`.yellow)
         }
 
         console.log("")
@@ -566,9 +593,9 @@ function gerarRelatorios() {
             let percNormal = ((pesoNormal / total) * 100)
             let percAcima = ((acimaPeso / total) * 100)
             //mini gráfico
-            let graficoAbaixo = "■".repeat(Math.round(percAbaixo / 2))
-            let graficoNormal = "■".repeat(Math.round(percNormal / 2))
-            let graficoAcima = "■".repeat(Math.round(percAcima / 2))
+            let graficoAbaixo = "■".repeat(Math.round(percAbaixo / 2)).blue
+            let graficoNormal = "■".repeat(Math.round(percNormal / 2)).blue
+            let graficoAcima = "■".repeat(Math.round(percAcima / 2)).blue
 
             console.log(`Abaixo do peso: ${percAbaixo.toFixed(1)}%`)
             console.log(graficoAbaixo)
